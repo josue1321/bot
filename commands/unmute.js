@@ -1,11 +1,16 @@
 module.exports = {
-	name: 'unmute',
-	description: 'Tira o mute o membro mencionado',
+	name: 'mute',
+	description: 'Tira o mute do membro mencionado',
 	run: async (client, message) => {
 		const muteRole = message.guild.roles.cache.find(role => role.name === 'Muted');
 		const member = message.mentions.members.first();
 
-		await member.roles.remove(muteRole).catch(console.error());
-		message.channel.send(`${member} não esta mais silenciado!`);
+		if (!member) {
+			await message.reply('Nenhum membro foi mencionado!');
+		}
+		else if (member) {
+			await member.roles.remove(muteRole).catch(console.error());
+			message.reply(`${member} não esta mais silenciado silenciado!`);
+		}
 	},
 };
